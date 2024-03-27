@@ -1,0 +1,23 @@
+from pwn import *
+
+print("Hello World!")
+
+io = remote('172.26.201.17',2223)
+
+recv = io.recvline()
+
+
+recv = recv.decode("utf-8")
+
+recv = str(recv)
+
+nums = re.findall(r'\d+',recv)
+print("nums 1 is " , nums[0])
+print("nums 2 is ",nums[1])
+
+print(type(recv))
+print("I recived: "+ recv)
+print("num is:",nums)
+
+io.sendline(str(int(nums[0])+int(nums[1])))
+print("recvline :: ",io.recvline())

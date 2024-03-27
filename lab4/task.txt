@@ -1,0 +1,5 @@
+1) find generator and perform DH
+2) DH with large exponents
+3) DH MiTM
+5) Dummy RSA signature
+4) Real-world RSA hybrid encryption
