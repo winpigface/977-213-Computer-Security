@@ -1,6 +1,28 @@
-def generator(g, prime,range_prime):
+from Crypto.Cipher import AES
+from Crypto.Hash import SHA256
+from base64 import b64encode, b64decode
+
+def generator(g, prime):
     w = set()
     for pows in range(1,prime):
         num = pow(g,pows,prime)
         w.add(num)
     return len(w) == prime - 1
+
+def public_key(g,my_privateKey,prime):
+    return pow(g,my_privateKey,prime)
+
+def share_key(teacher_publicKey,my_privateKey):
+    return pow(teacher_publicKey,my_privateKey)
+
+def encryption_key(share_key,nonce,header,ciphertext,tag):
+    encryption_key = SHA256.new(share_key.to_bytes(share_key.bit_length(),byteorder="big")).digest()
+    print(encryption_key)
+    nonce = b64decode(nonce)
+    header = b64decode(header)
+    tag = b64decode(tag)
+    ciphertext = b64decode(ciphertext)
+    cipher = AES.new(encryption_key,AES.MODE_GCM,nonce=nonce)
+    cipher.update(header)
+    plaintext = cipher.decrypt_and_verify(ciphertext,tag)
+    return plaintext
