@@ -12,12 +12,11 @@ def generator(g, prime):
 def public_key(g,my_privateKey,prime):
     return pow(g,my_privateKey,prime)
 
-def share_key(teacher_publicKey,my_privateKey):
-    return pow(teacher_publicKey,my_privateKey)
+def create_share_key(teacher_publicKey,my_privateKey,prime):
+    return pow(teacher_publicKey,my_privateKey,prime)
 
 def encryption_key(share_key,nonce,header,ciphertext,tag):
     encryption_key = SHA256.new(share_key.to_bytes(share_key.bit_length(),byteorder="big")).digest()
-    print(encryption_key)
     nonce = b64decode(nonce)
     header = b64decode(header)
     tag = b64decode(tag)
@@ -25,4 +24,4 @@ def encryption_key(share_key,nonce,header,ciphertext,tag):
     cipher = AES.new(encryption_key,AES.MODE_GCM,nonce=nonce)
     cipher.update(header)
     plaintext = cipher.decrypt_and_verify(ciphertext,tag)
-    return plaintext
+    return plaintext.decode("utf-8")
