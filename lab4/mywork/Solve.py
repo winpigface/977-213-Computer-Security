@@ -1,4 +1,5 @@
-from Crypto.Cipher import AES
+from Crypto.Cipher import AES,PKCS1_OAEP
+from Crypto.PublicKey import RSA
 from Crypto.Hash import SHA256
 from base64 import b64encode, b64decode
 
@@ -25,3 +26,9 @@ def encryption_key(share_key,nonce,header,ciphertext,tag):
     cipher.update(header)
     plaintext = cipher.decrypt_and_verify(ciphertext,tag)
     return plaintext.decode("utf-8")
+
+def RSA_format():
+    message = b'You can attack now!'
+    key = RSA.importKey(open('../deploy/public.pem').read())
+    cipher = PKCS1_OAEP.new(key)
+    print(key.n,key.e)

@@ -17,8 +17,7 @@ match num_question:
         # z = {1,2,3,...,prime - 1}
         g = str()
         print("Finding generator...")
-        # prime number in range  1 - 70
-        for i in [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67]:
+        for i in range(2,prime_number):
             print(i)
             if(Solve.generator(i,prime_number)):
                 print("Found")
@@ -85,7 +84,10 @@ match num_question:
         json_text = re.findall(r'\{.*\}',question_text2)[0]
         data = json.loads(json_text)
 
-
+    case "4":
+        question_text = io.recvrepeat(timeout=0.5).decode("utf-8")
+        print(question_text)
+        Solve.RSA_format()
         
         
         
