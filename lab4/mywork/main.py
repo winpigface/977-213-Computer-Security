@@ -85,10 +85,10 @@ match num_question:
         data = json.loads(json_text)
 
     case "4":
-        question_text = io.recvrepeat(timeout=0.5).decode("utf-8")
+        question_text = io.recvrepeat(timeout=2).decode("utf-8")
         print(question_text)
-        Solve.RSA_format()
-        
-        
-        
-        
+        intercept_message = re.findall(r'Intercepted message \(in hex\):\n(.*)',question_text)[0][2:]
+        print(intercept_message)
+        RSA_factor = re.findall(r'RSA\ factor\ (.*)',question_text)[0]
+        plaintext = Solve.RSA_format(intercept_message,RSA_factor)
+        print(plaintext)
