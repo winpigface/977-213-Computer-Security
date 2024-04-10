@@ -28,7 +28,10 @@ def encryption_key(share_key,nonce,header,ciphertext,tag):
     plaintext = cipher.decrypt_and_verify(ciphertext,tag)
     return plaintext.decode("utf-8")
 
-def RSA_format(intercept_message,RSA_factor):
+def RSA_format(pem_text,intercept_message,RSA_factor):
+    with open('../deploy/public.pem',"w") as pem_file:
+        pem_file.write(pem_text)
+
     key = RSA.importKey(open('../deploy/public.pem').read())
     intercept_message_byte = bytes.fromhex(intercept_message)
     p = int(RSA_factor,16)

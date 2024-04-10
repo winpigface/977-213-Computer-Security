@@ -87,8 +87,8 @@ match num_question:
     case "4":
         question_text = io.recvrepeat(timeout=2).decode("utf-8")
         print(question_text)
+        pem_text = re.findall(r'-----BEGIN PUBLIC KEY-----\n.*\n.*\n.*\n.*\n.*\n.*\n.*\n-----END PUBLIC KEY-----',question_text)[0]
         intercept_message = re.findall(r'Intercepted message \(in hex\):\n(.*)',question_text)[0][2:]
-        print(intercept_message)
         RSA_factor = re.findall(r'RSA\ factor\ (.*)',question_text)[0]
-        plaintext = Solve.RSA_format(intercept_message,RSA_factor)
+        plaintext = Solve.RSA_format(pem_text,intercept_message,RSA_factor)
         print(plaintext)
